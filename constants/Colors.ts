@@ -1,6 +1,6 @@
 const Colors = {
-  brand: '#1A3C5E',
-  brand2: '#2563A8',
+  brand: '#000000',
+  brand2: '#09386e',
   accent: '#E8A020',
   bg: '#F5F7FA',
   card: '#FFFFFF',
