@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Colors from '../../constants/Colors';
 
 export default function Login() {
@@ -9,7 +9,7 @@ export default function Login() {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image source={require('../../assets/images/logo-autotech.png')}
-        style={{ width: 350, height: 99}}/>
+        style={{ width: 350, height: 175}}/>
         <Text style={styles.logo}>AutoTech</Text>
         <Text style={styles.subtitle}>Agendamento de serviços automotivos</Text>
       </View>
