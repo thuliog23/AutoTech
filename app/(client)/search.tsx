@@ -4,7 +4,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  TextInput,        // Campo de texto editável
+  TextInput,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import Colors from '../../constants/Colors';
@@ -18,7 +18,7 @@ export default function Search() {
       {/* ── CABEÇALHO COM BUSCA ── */}
       <View style={styles.header}>
 
-        {/* Linha com botão voltar + campo de busca */}
+        {/* Campo de busca */}
         <View style={styles.searchRow}>
           <TouchableOpacity
             style={styles.backBtn}
@@ -27,12 +27,10 @@ export default function Search() {
             <Text style={styles.backIcon}>‹</Text>
           </TouchableOpacity>
 
-          {/* Campo de texto real */}
           <TextInput
             style={styles.searchInput}
             placeholder="Buscar serviço ou oficina..."
             placeholderTextColor={Colors.muted}
-            autoFocus={false}
           />
         </View>
 
@@ -42,105 +40,93 @@ export default function Search() {
           showsHorizontalScrollIndicator={false}
           style={styles.filtersScroll}
         >
-          <TouchableOpacity style={[styles.filter, styles.filterActive]}>
-            <Text style={styles.filterTextActive}>Todos</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filter}>
-            <Text style={styles.filterText}>Óleo</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filter}>
-            <Text style={styles.filterText}>Pneus</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filter}>
-            <Text style={styles.filterText}>Freios</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filter}>
-            <Text style={styles.filterText}>Funilaria</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filter}>
-            <Text style={styles.filterText}>Elétrica</Text>
-          </TouchableOpacity>
+          {['Todos', 'Óleo', 'Pneus', 'Freios', 'Funilaria', 'Elétrica'].map((f, i) => (
+            <TouchableOpacity
+              key={f}
+              style={[styles.filter, i === 0 && styles.filterActive]}
+            >
+              <Text style={[styles.filterText, i === 0 && styles.filterTextActive]}>
+                {f}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </ScrollView>
       </View>
 
-      {/* ── CONTEÚDO ── */}
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
 
-        {/* Mapa placeholder */}
-        <View style={styles.mapPlaceholder}>
-          <Text style={styles.mapText}>📍 Mapa — Em breve</Text>
+        {/* ── MAPA PLACEHOLDER ── */}
+        {/* Aqui vai o mapa real depois de integrar o Google Maps */}
+        <View style={styles.mapBox}>
+          <Text style={styles.mapPin}>📍</Text>
+          <Text style={styles.mapText}>Mapa — Em breve</Text>
         </View>
 
-        {/* Quantidade de resultados */}
         <Text style={styles.sectionTitle}>3 OFICINAS ENCONTRADAS</Text>
 
-        {/* ── CARTÃO DE OFICINA 1 ── */}
-        <TouchableOpacity style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.cardName}>AutoTech Mendanha</Text>
-            {/* Badge de distância */}
-            <View style={[styles.badge, { backgroundColor: '#DCFCE7' }]}>
-              <Text style={[styles.badgeText, { color: '#15803D' }]}>1.2 km</Text>
+        {/* ── LISTA DE OFICINAS ── */}
+        {[
+          {
+            nome: 'AutoTech Mendanha',
+            endereco: 'Rua Mendanha, 225 — Aberto até 18h',
+            distancia: '1.2 km',
+            distanciaCor: '#DCFCE7',
+            distanciaTexto: '#15803D',
+            estrelas: '★★★★★',
+            nota: '5.0',
+            avaliacoes: '48',
+          },
+          {
+            nome: 'Master Auto Center',
+            endereco: 'Av. Contorno, 890 — Aberto até 17h',
+            distancia: '2.8 km',
+            distanciaCor: '#DBEAFE',
+            distanciaTexto: '#1E40AF',
+            estrelas: '★★★★☆',
+            nota: '4.2',
+            avaliacoes: '31',
+          },
+          {
+            nome: 'TopCar Service',
+            endereco: 'Rua das Acácias, 55 — Abre 07h30',
+            distancia: '4.1 km',
+            distanciaCor: '#FEF3C7',
+            distanciaTexto: '#92400E',
+            estrelas: '★★★★★',
+            nota: '4.9',
+            avaliacoes: '22',
+          },
+        ].map((oficina) => (
+          <View key={oficina.nome} style={styles.card}>
+
+            {/* Nome + distância */}
+            <View style={styles.cardHeader}>
+              <Text style={styles.cardName}>{oficina.nome}</Text>
+              <View style={[styles.badge, { backgroundColor: oficina.distanciaCor }]}>
+                <Text style={[styles.badgeText, { color: oficina.distanciaTexto }]}>
+                  {oficina.distancia}
+                </Text>
+              </View>
             </View>
-          </View>
 
-          <Text style={styles.cardAddress}>Rua Mendanha, 225 — Aberto até 18h</Text>
+            {/* Endereço */}
+            <Text style={styles.cardAddress}>{oficina.endereco}</Text>
 
-          {/* Linha inferior: estrelas + botão */}
-          <View style={styles.cardFooter}>
-            <View>
-              <Text style={styles.stars}>★★★★★</Text>
-              <Text style={styles.starsLabel}>5.0 (48 avaliações)</Text>
+            {/* Estrelas + botão agendar */}
+            <View style={styles.cardFooter}>
+              <View>
+                <Text style={styles.stars}>{oficina.estrelas}</Text>
+                <Text style={styles.starsLabel}>
+                  {oficina.nota} ({oficina.avaliacoes} avaliações)
+                </Text>
+              </View>
+              <TouchableOpacity style={styles.scheduleBtn}>
+                <Text style={styles.scheduleBtnText}>Agendar</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.scheduleBtn}>
-              <Text style={styles.scheduleBtnText}>Agendar</Text>
-            </TouchableOpacity>
+
           </View>
-        </TouchableOpacity>
-
-        {/* ── CARTÃO DE OFICINA 2 ── */}
-        <TouchableOpacity style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.cardName}>Master Auto Center</Text>
-            <View style={[styles.badge, { backgroundColor: '#DBEAFE' }]}>
-              <Text style={[styles.badgeText, { color: '#1E40AF' }]}>2.8 km</Text>
-            </View>
-          </View>
-
-          <Text style={styles.cardAddress}>Av. Contorno, 890 — Aberto até 17h</Text>
-
-          <View style={styles.cardFooter}>
-            <View>
-              <Text style={styles.stars}>★★★★☆</Text>
-              <Text style={styles.starsLabel}>4.2 (31 avaliações)</Text>
-            </View>
-            <TouchableOpacity style={styles.scheduleBtn}>
-              <Text style={styles.scheduleBtnText}>Agendar</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-
-        {/* ── CARTÃO DE OFICINA 3 ── */}
-        <TouchableOpacity style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text style={styles.cardName}>TopCar Service</Text>
-            <View style={[styles.badge, { backgroundColor: '#FEF3C7' }]}>
-              <Text style={[styles.badgeText, { color: '#92400E' }]}>4.1 km</Text>
-            </View>
-          </View>
-
-          <Text style={styles.cardAddress}>Rua das Acácias, 55 — Abre 07h30</Text>
-
-          <View style={styles.cardFooter}>
-            <View>
-              <Text style={styles.stars}>★★★★★</Text>
-              <Text style={styles.starsLabel}>4.9 (22 avaliações)</Text>
-            </View>
-            <TouchableOpacity style={styles.scheduleBtn}>
-              <Text style={styles.scheduleBtnText}>Agendar</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
+        ))}
 
         <View style={{ height: 20 }} />
       </ScrollView>
@@ -155,7 +141,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.bg,
   },
 
-  // Cabeçalho branco
   header: {
     backgroundColor: Colors.card,
     paddingTop: 50,
@@ -165,7 +150,6 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.border,
   },
 
-  // Linha de busca
   searchRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -173,14 +157,12 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
-  // Botão voltar circular
   backBtn: {
     width: 36,
     height: 36,
     borderRadius: 18,
     borderWidth: 1,
     borderColor: Colors.border,
-    backgroundColor: Colors.card,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -191,7 +173,6 @@ const styles = StyleSheet.create({
     lineHeight: 28,
   },
 
-  // Campo de texto de busca
   searchInput: {
     flex: 1,
     backgroundColor: Colors.bg,
@@ -204,10 +185,8 @@ const styles = StyleSheet.create({
     color: Colors.text,
   },
 
-  // Scroll horizontal de filtros
   filtersScroll: { marginBottom: 4 },
 
-  // Cada filtro/chip
   filter: {
     paddingHorizontal: 14,
     paddingVertical: 6,
@@ -218,7 +197,6 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
 
-  // Filtro selecionado (azul)
   filterActive: {
     backgroundColor: Colors.brand2,
     borderColor: Colors.brand2,
@@ -239,17 +217,20 @@ const styles = StyleSheet.create({
   scroll: { flex: 1, padding: 16 },
 
   // Mapa placeholder
-  mapPlaceholder: {
+  mapBox: {
     backgroundColor: '#C8D8E8',
     borderRadius: 12,
     height: 150,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,
+    gap: 6,
   },
 
+  mapPin: { fontSize: 28 },
+
   mapText: {
-    fontSize: 15,
+    fontSize: 14,
     color: Colors.muted,
     fontWeight: '500',
   },
@@ -285,7 +266,6 @@ const styles = StyleSheet.create({
     color: Colors.text,
   },
 
-  // Badge colorido (distância)
   badge: {
     paddingHorizontal: 10,
     paddingVertical: 4,
@@ -319,7 +299,6 @@ const styles = StyleSheet.create({
     color: Colors.muted,
   },
 
-  // Botão agendar
   scheduleBtn: {
     backgroundColor: Colors.brand2,
     borderRadius: 8,

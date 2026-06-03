@@ -139,7 +139,7 @@ export default function Home() {
             <Text style={styles.serviceName}>Pneus</Text>
             <Text style={styles.servicePrice}>a partir de R$ 250</Text>
             <View style={[styles.serviceBadge, { backgroundColor: '#DCFCE7' }]}>
-              <Text style={[styles.serviceBadgeText, { color: '#15803D' }]}>Preço fixo</Text>
+              <Text style={[styles.serviceBadgeText, { color: '#1E40AF' }]}>Preço fixo</Text>
             </View>
           </TouchableOpacity>
 
